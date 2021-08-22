@@ -4,6 +4,7 @@ import App from "./App"
 
 import { Global, css } from "@emotion/react"
 import { SizeProvider } from "./Context/SizeProvider"
+import { ConfigProvider } from "./Context/ConfigProvider"
 
 const GlobalStyle = css`
   * {
@@ -26,7 +27,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Global styles={GlobalStyle} />
     <SizeProvider>
-      <App />
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>
     </SizeProvider>
   </React.StrictMode>,
   document.getElementById("root")
