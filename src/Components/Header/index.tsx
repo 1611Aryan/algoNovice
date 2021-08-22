@@ -40,6 +40,7 @@ const Header = () => {
           <select name="algorithm" onChange={sortTypeHandler}>
             <option value="bubble">Bubble Sort</option>
             <option value="insertion">Insertion Sort</option>
+            <option value="selection">Selection Sort</option>
           </select>
           <label htmlFor="algorithm">Algorithm</label>
         </div>
@@ -101,6 +102,7 @@ const StyledHeader = styled.header`
         border: 0;
         font-size: clamp(0.65rem, 1vw, 1rem);
         padding: 0.2em;
+        background: #fff;
         &:focus {
           outline: none;
         }

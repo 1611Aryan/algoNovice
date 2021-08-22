@@ -47,6 +47,7 @@ const Main = () => {
     if (config.start) {
       config.sortType === "bubble" && bubbleSort()
       config.sortType === "insertion" && insertionSort()
+      config.sortType === "selection" && selectionSort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config])
@@ -55,7 +56,7 @@ const Main = () => {
     const tempArray = array || []
     const size = tempArray ? tempArray.length : 0
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < size; i++)
       for (let j = 0; j < size - i - 1; j++) {
         tempArray[j].active = true
         if (tempArray[j].value > tempArray[j + 1].value)
@@ -64,7 +65,6 @@ const Main = () => {
         await new Promise(resolve => setTimeout(resolve, 2))
         tempArray[j].active = false
       }
-    }
 
     setConfig(config => ({ ...config, start: false }))
   }
@@ -84,6 +84,38 @@ const Main = () => {
         await new Promise(resolve => setTimeout(resolve, 5))
         tempArray[i].active = false
       }
+    }
+
+    setConfig(config => ({ ...config, start: false }))
+  }
+
+  const selectionSort = async () => {
+    const tempArray = array || []
+    const size = tempArray ? tempArray.length : 0
+
+    for (let i = 0; i < size; i++) {
+      let leftElement = tempArray[i]
+      let min = {
+        value: leftElement.value,
+        index: i,
+      }
+      for (let j = i; j < size; j++) {
+        if (tempArray[j].value < min.value)
+          min = {
+            value: tempArray[j].value,
+            index: j,
+          }
+        tempArray[i].active = true
+        setArray([...tempArray])
+        await new Promise(resolve => setTimeout(resolve, 10))
+        tempArray[i].active = false
+      }
+
+      if (min.value !== leftElement.value)
+        [tempArray[i], tempArray[min.index]] = [
+          tempArray[min.index],
+          tempArray[i],
+        ]
     }
 
     setConfig(config => ({ ...config, start: false }))
