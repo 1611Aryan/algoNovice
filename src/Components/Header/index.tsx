@@ -41,6 +41,7 @@ const Header = () => {
             <option value="bubble">Bubble Sort</option>
             <option value="insertion">Insertion Sort</option>
             <option value="selection">Selection Sort</option>
+            <option value="quick">Quick Sort</option>
           </select>
           <label htmlFor="algorithm">Algorithm</label>
         </div>

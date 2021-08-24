@@ -48,6 +48,7 @@ const Main = () => {
       config.sortType === "bubble" && bubbleSort()
       config.sortType === "insertion" && insertionSort()
       config.sortType === "selection" && selectionSort()
+      config.sortType === "quick" && quickSort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config])
@@ -62,7 +63,7 @@ const Main = () => {
         if (tempArray[j].value > tempArray[j + 1].value)
           [tempArray[j], tempArray[j + 1]] = [tempArray[j + 1], tempArray[j]]
         setArray([...tempArray])
-        await new Promise(resolve => setTimeout(resolve, 2))
+        await new Promise(resolve => setTimeout(resolve, 1))
         tempArray[j].active = false
       }
 
@@ -81,7 +82,7 @@ const Main = () => {
           tempArray[i - 1] = element
         }
         setArray([...tempArray])
-        await new Promise(resolve => setTimeout(resolve, 5))
+        await new Promise(resolve => setTimeout(resolve, 1))
         tempArray[i].active = false
       }
     }
@@ -107,7 +108,7 @@ const Main = () => {
           }
         tempArray[i].active = true
         setArray([...tempArray])
-        await new Promise(resolve => setTimeout(resolve, 10))
+        await new Promise(resolve => setTimeout(resolve, 1))
         tempArray[i].active = false
       }
 
@@ -121,6 +122,47 @@ const Main = () => {
     setConfig(config => ({ ...config, start: false }))
   }
 
+  const quickSort = async () => {
+    const tempArray = array || []
+
+    const newArray = (async function sort(
+      array: {
+        value: number
+        active: boolean
+      }[]
+    ): Promise<any> {
+      const length = array.length
+      if (length < 1) return array
+      const pivot = array[Math.floor(Math.random() * length)]
+
+      const left: {
+        value: number
+        active: boolean
+      }[] = []
+      const right: {
+        value: number
+        active: boolean
+      }[] = []
+
+      for (let i = 0; i < length; i++) {
+        array[i].active = true
+        array[i].value < pivot.value && left.push(array[i])
+        array[i].value > pivot.value && right.push(array[i])
+        setArray(old => {
+          return old
+            ? [...array, ...old.filter(a => a.value !== array[i].value)]
+            : [...array]
+        })
+        await new Promise(resolve => setTimeout(resolve, 5))
+        array[i].active = false
+      }
+
+      return [...(await sort(left)), pivot, ...(await sort(right))]
+    })(tempArray)
+
+    setArray([...(await newArray)])
+    setConfig(config => ({ ...config, start: false }))
+  }
   return (
     <StyledArray>
       <ul>
